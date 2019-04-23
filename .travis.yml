@@ -6,3 +6,22 @@ install:
      - tar -xf gcc-arm-none-eabi-8-2018-q4-major-linux.tar.bz2 -C ~/;
      - mv ~/gcc-arm-none-eabi-8-2018-q4-major  ~/gcc-arm-none-eabi-8-2018-q4
      - export PATH=$PATH:$PWD/gcc-arm-none-eabi-8-2018-q4-major/bin;
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "hhCAxq7xx7t95rZcLmw9I6Z538/ajeeP90JP9KD0Wmt3btjHsLTg92he6xpmIfKrLpaQCUF/tRPE5g2wfPQffDwTqZieslv4jj8AXPeNu4mf0r4iPHbEXF+zlIv8KTeYNgfWElVTU4jxE1T2bdwiQZCNJ6Nq30iGoXCwqxPrrv4ZjImKSibvY1cY+SQShXiKJbagritwRDcFcDH/9YjYDbml88YAJmTUC7tZUtr9D/HY9CxnbSMfMPzGE3RsGonMOJre+Z9jFTB4JZBEtWdkCtkdPyw9rla1QDxNyFhDN6ilhiM2puECGDQrNhO18Xl9elnbRGrFpQVsP+d9Ge2tZNHMUx6v0fEmnj2oJl3oUWUZtszp8mTycSIg6ffDEfV9eojowwZjDPhAbunu7Ao0/Vr80vhw7FhrlLxDA8IqPnWudHvu4W8snFmeZfUZ4s4LMwzBce3kli+OQ/tnaQF9UFqg8528bKmq8gG0O+qbuVCO/AGZQaYx2jKvNChS9oX27SpmkKvihEGOi0hjriWoHKvDE76kWKl0NP9mwFicVxl5L6817z2Y/nCGkq9BlsMSaVIgXO8r9mCJsx3m2fJTgbLaf3mma+wraO3mPF8U8DK73YUGpd50Sh5mrpznXOS9IuMlkHLU00CTQQ1B55Y4qC4wNbdkjDXe2vaJaom7mDg="
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "Joyero/GPS_CLI_Leds"
+      description: "Proyecto de pruebas para AST"
+    notification_email: jorgerios@hotmail.com
+    build_command_prepend: "./configure"
+    build_command: "make -j2"
+    branch_pattern: coverity_scan

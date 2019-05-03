@@ -30,14 +30,12 @@ addons:
 script:
   - make -j2  
 
-
+    
 coverity_scan:
     project:
-      name: "name/project"
+      name: "Joyero/GPS_CLI_Leds"
       description: "Build submitted via Travis CI"
-      notification_email: name@domain.com
-
-    build_command_prepend: "cov-configure --comptype gcc --compiler arm-none-eabi-gcc --template"
-
-    build_command:   "make VERBOSE=1"
-    branch_pattern: coverity_scan
+      notification_email: joyero@joyeria.com
+      build_command_prepend: "cov-configure --comptype gcc --compiler arm-none-eabi-gcc --template"
+      build_command:   "make VERBOSE=1"
+      branch_pattern: coverity_scan
